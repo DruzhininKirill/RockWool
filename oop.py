@@ -110,13 +110,6 @@ class Task(object):
                 tm.x = max(tm.x - x_val, 0)
 
 
-
-
-
-
-
-
-
 class Worker(object):
     """docstring"""
 
@@ -196,8 +189,6 @@ class Field(object):
         print("Функция ошибки:" + str(self.loss()))
 
     def polygon(self, show_plot=False):
-        # tupled = sorted(self.timetable.day_workers.items(), key=operator.itemgetter(1), reverse=True)
-        # print(tupled)
         pointList = [[0, 0]]
         top_right = []
         for num, worker in enumerate(self.tupled, start=0):
@@ -274,7 +265,6 @@ class Field(object):
         ax = fig.add_subplot()
         plt.xlim([0, self.len_x])
         plt.ylim([0, self.len_y])
-        # tupled = sorted(self.timetable.day_workers.items(), key=operator.itemgetter(1), reverse=True)
         ylabels = []
         for num, worker in enumerate(self.tupled, start=0):
             ylabels.append(worker[0])
@@ -286,13 +276,12 @@ class Field(object):
         plt.show()
         return 0
 
-    def plot(self):
+    def plot(self, title = "Plot"):
         cmap = plt.cm.get_cmap('hsv', len(self.tasks))
         fig = plt.figure()
         ax = fig.add_subplot()
         plt.xlim([0, self.len_x])
         plt.ylim([0, self.len_y])
-        # tupled = sorted(self.timetable.day_workers.items(), key=operator.itemgetter(1), reverse=True)
         ylabels = []
         for num, worker in enumerate(self.tupled, start=0):
             ylabels.append(worker[0])
@@ -307,7 +296,7 @@ class Field(object):
             for rect in task.rectangles(cmap(i)):
                 ax.add_patch(rect)
 
-        ax.set_title("Plot")
+        ax.set_title(title)
         plt.show()
         return 0
 
@@ -323,10 +312,6 @@ class Field(object):
                     best_dist = float(self.right_distance())
                     for tl in task.timelines:
                         tl.x = max(0, tl.x -step)
-                    # if best_place == 0:
-                    #     error += 1
-
-
                     if self.task_intersections()+100/self.right_distance() >= best_intersections+100/best_dist: #znak??
                         error += 1
                         # print('step: '+str(step)+", err: "+ str(error))
@@ -374,7 +359,6 @@ class Field(object):
                 data['Начать'].append(start_time)
 
         df = pd.DataFrame(data=data, columns=['ID', 'Номер задания', 'Общее время', 'Начать'])
-        # print(df)
         df = df.sort_values(by=['ID', 'Начать'])
 
         print(df)
